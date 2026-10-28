@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://b56gjfjl00oso"]
+
+[ext_resource type="PackedScene" uid="uid://cl4rnconkveai" path="res://environment.blend" id="1_7b2gm"]
+[ext_resource type="Texture2D" uid="uid://c3k7o1ktl3sxc" path="res://dark.png" id="2_7b2gm"]
+[ext_resource type="Texture2D" uid="uid://b6ot7xhmqysbs" path="res://ornge.png" id="2_wetts"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lmacm"]
+albedo_texture = ExtResource("2_7b2gm")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wdn31"]
+albedo_texture = ExtResource("2_wetts")
+uv1_triplanar = true
+
+[node name="environment" unique_id=1623988856 instance=ExtResource("1_7b2gm")]
+
+[node name="Plane" parent="." index="0" unique_id=1501774660]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 1.928257, 9.384711, -6.6392)
+surface_material_override/0 = SubResource("StandardMaterial3D_lmacm")
+surface_material_override/1 = SubResource("StandardMaterial3D_wdn31")

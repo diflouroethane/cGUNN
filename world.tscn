@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://8axhx2d0sagt"]
+
+[ext_resource type="PackedScene" uid="uid://b56gjfjl00oso" path="res://environment.tscn" id="1_f3sb7"]
+[ext_resource type="Script" uid="uid://eyokphjpb3b3" path="res://world.gd" id="1_tlwt5"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_fj7yv"]
+sky_material = SubResource("ProceduralSkyMaterial_f3sb7")
+
+[sub_resource type="Environment" id="Environment_tlwt5"]
+background_mode = 2
+sky = SubResource("Sky_fj7yv")
+glow_enabled = true
+
+[node name="World" type="Node" unique_id=1186492844]
+script = ExtResource("1_tlwt5")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=231575322]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1135271880]
+environment = SubResource("Environment_tlwt5")
+
+[node name="environment" parent="." unique_id=1623988856 instance=ExtResource("1_f3sb7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -10, 6)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=797654231]
+
+[node name="MainMenu" type="PanelContainer" parent="CanvasLayer" unique_id=1509292598]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 319.0
+offset_top = 216.0
+offset_right = -319.0
+offset_bottom = -216.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainMenu" unique_id=151657881]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer" unique_id=1333224035]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer" unique_id=2058240961]
+layout_mode = 2
+text = "Game"
+horizontal_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer" unique_id=443584353]
+layout_mode = 2
+alignment = 1
+item_count = 2
+popup/item_0/text = "host"
+popup/item_0/id = 0
+popup/item_1/text = "join"
+popup/item_1/id = 1
+
+[node name="HostButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer" unique_id=1211989878]
+visible = false
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer" unique_id=1637465915]
+visible = false
+layout_mode = 2
+text = "Join
+"
+
+[node name="AddressAndPort" type="HBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer" unique_id=377500321]
+layout_mode = 2
+
+[node name="Address" type="LineEdit" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressAndPort" unique_id=398311118]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "enter address to join here..."
+alignment = 1
+
+[node name="PortEntry" type="LineEdit" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressAndPort" unique_id=434251843]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.01
+text = "9989"
+placeholder_text = "port"
+
+[node name="GoButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer" unique_id=1094484556]
+layout_mode = 2
+text = "GO!!"
+
+[node name="HUD" type="Control" parent="CanvasLayer" unique_id=1075158741]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD" unique_id=567996713]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 104.0
+offset_right = -98.0
+offset_bottom = 85.0
+grow_horizontal = 2
+scale = Vector2(0.9940013, 1)
+max_value = 3.0
+value = 3.0
+show_percentage = false
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=410163649]
+_spawnable_scenes = PackedStringArray("uid://o3svhm0ki66a")
+spawn_path = NodePath("..")
+
+[connection signal="item_selected" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="text_changed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressAndPort/PortEntry" to="." method="_on_port_entry_text_changed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/GoButton" to="." method="_on_go_button_pressed"]
+[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
