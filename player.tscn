@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://dn5ss2fdv1ywm" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="Texture2D" uid="uid://b6ot7xhmqysbs" path="res://ornge.png" id="2_hqtel"]
 [ext_resource type="Texture2D" uid="uid://73my5k6pd50w" path="res://crosshair.png" id="2_i3pqv"]
-[ext_resource type="PackedScene" uid="uid://xsd1myf8kvwr" path="res://pistol.tscn" id="4_hqtel"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_127wi"]
 
@@ -25,6 +24,9 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:rotation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath(".:chosen_gun")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" unique_id=1512425075]
 collision_layer = 3
@@ -54,14 +56,8 @@ pivot_offset = Vector2(576, 324)
 texture = ExtResource("2_i3pqv")
 stretch_mode = 5
 
-[node name="RayCast3D" type="RayCast3D" parent="CameraPivot" unique_id=1366535558]
-target_position = Vector3(0, 0, -50)
-collision_mask = 3
-
 [node name="Gun" type="Node3D" parent="CameraPivot" unique_id=2021906676]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38024634, -0.25445533, -0.39086592)
-
-[node name="Pistol" parent="CameraPivot/Gun" unique_id=1748506372 instance=ExtResource("4_hqtel")]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1011144960]
 replication_config = SubResource("SceneReplicationConfig_onrkg")

@@ -3,10 +3,13 @@ extends Node3D
 class_name Pistol
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var flash: CPUParticles3D = $pivot/CPUParticles3D
-
+@onready var raycast = $RayCast3D
+var damage = 1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	animation_player.play("RESET")
+	print("damage of gun is:", get_parent().get_parent().get_parent().gun_damage)
+	print("setting gun damage of player with name ", get_parent().get_parent().get_parent().name, " to ", damage)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

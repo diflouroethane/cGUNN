@@ -13,7 +13,7 @@ extends Node
 
 var PORT = 9989
 var peer = ENetMultiplayerPeer.new()
-
+var chosengun: Global.Choosable_guns = Global.Choosable_guns.PISTOL
 const PLAYER = preload("res://player.tscn")
 const HOST = 0
 const JOIN = 1
@@ -45,14 +45,18 @@ func _on_join_button_pressed() -> void:
 	hud.show()
 	peer.create_client(address.text, PORT)
 	multiplayer.multiplayer_peer = peer
-	#add_player(multiplayer.get_unique_id())
+	add_player(multiplayer.get_unique_id())
 
 func add_player(id):
 	var player: Player = PLAYER.instantiate()
+	player.chosen_gun = chosengun
 	player.name = str(id)
+	print("world.gd:54, ", player.chosen_gun)
 	add_child(player)
 	if player.is_multiplayer_authority():
 		player.health_changed.connect(update_health_bar)
+	
+	#finish()
 
 func remove_player(id):
 	var player := get_node_or_null(str(id))
@@ -93,3 +97,19 @@ func _on_option_button_item_selected(index: int) -> void:
 			go_button.pressed.connect(_on_join_button_pressed)
 	print(index)
 	print(go_button.pressed.get_connections())
+
+
+func _on_gun_select_item_selected(index: int) -> void:
+	const PISTOL = 0
+	const SHOTGUN = 1
+	match index:
+		PISTOL:
+			chosengun = Global.Choosable_guns.PISTOL
+		SHOTGUN:
+			chosengun = Global.Choosable_guns.SHOTGUN
+	
+	print("chose gun(?)")
+	print(index == PISTOL)
+
+func finish():
+	chosengun = Global.Choosable_guns.PISTOL

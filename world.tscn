@@ -78,6 +78,7 @@ text = "Join
 "
 
 [node name="AddressAndPort" type="HBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer" unique_id=377500321]
+visible = false
 layout_mode = 2
 
 [node name="Address" type="LineEdit" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressAndPort" unique_id=398311118]
@@ -96,6 +97,24 @@ placeholder_text = "port"
 [node name="GoButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer" unique_id=1094484556]
 layout_mode = 2
 text = "GO!!"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer" unique_id=1438416309]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HBoxContainer" unique_id=62187305]
+layout_mode = 2
+text = "Gun:"
+
+[node name="GunSelect" type="OptionButton" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HBoxContainer" unique_id=957796804]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "pistol"
+popup/item_0/id = 0
+popup/item_1/text = "shotgun"
+popup/item_1/id = 1
 
 [node name="HUD" type="Control" parent="CanvasLayer" unique_id=1075158741]
 visible = false
@@ -129,4 +148,5 @@ spawn_path = NodePath("..")
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="text_changed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressAndPort/PortEntry" to="." method="_on_port_entry_text_changed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/GoButton" to="." method="_on_go_button_pressed"]
+[connection signal="item_selected" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HBoxContainer/GunSelect" to="." method="_on_gun_select_item_selected"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

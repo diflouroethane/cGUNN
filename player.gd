@@ -10,8 +10,14 @@ var mouse_sensitivity = 0.01
 
 var max_health = 3
 var health = max_health
+var gun_damage = 1
 
-@onready var raycast: RayCast3D = $CameraPivot/RayCast3D
+var pistol_file = preload("res://pistol.tscn")
+var shotgun_file = preload("res://shotgun.tscn")
+
+
+var chosen_gun: Global.Choosable_guns
+@onready var raycast: RayCast3D
 @onready var gun_hand: Node3D = $CameraPivot/Gun
 @onready var pistol: Node3D = $CameraPivot/Gun/Pistol
 
@@ -20,14 +26,30 @@ var health = max_health
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
+	#chosen_gun = Global.Choosable_guns.PISTOL
 
 func _ready() -> void:
+	match chosen_gun:
+		Global.Choosable_guns.PISTOL:
+			var g: Pistol = pistol_file.instantiate()
+			gun_damage = g.damage
+			$CameraPivot/Gun.add_child(g)
+			print("pistol")
+		Global.Choosable_guns.SHOTGUN:
+			var g: Shotgun = shotgun_file.instantiate()
+			gun_damage = g.damage
+			$CameraPivot/Gun.add_child(g)
+			print("shotgunnnn yayayayay")
+	pistol = $CameraPivot/Gun.get_child(0)
+	raycast = pistol.raycast
 	if !is_multiplayer_authority():
 		return
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	print(chosen_gun)
 	camera.current = true
 
 func _physics_process(delta: float) -> void:
+	print("chosen gun of name, ",self.name," is ", chosen_gun)
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED and Input.is_action_just_pressed("shoot"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	elif Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and Input.is_action_just_pressed("nofocus"):
@@ -59,15 +81,16 @@ func _physics_process(delta: float) -> void:
 		if raycast.is_colliding() and raycast.get_collider() is Player:
 			
 			var player_hit: Player = raycast.get_collider()
-			player_hit.hurt.rpc_id(player_hit.get_multiplayer_authority())
+			player_hit.hurt.rpc_id(player_hit.get_multiplayer_authority(), self.gun_damage)
 
 @rpc("call_local")
 func play_shoot():
 	pistol.shoot()
+	#velocity += camera_pivot.basis.x * 1000
 
 @rpc("any_peer")
-func hurt():
-	health -= 1
+func hurt(d):
+	health -= d
 	if health <=0:
 		health = max_health
 		global_position = Vector3.ZERO
