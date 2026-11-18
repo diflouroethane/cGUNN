@@ -121,6 +121,14 @@ popup/item_0/id = 0
 popup/item_1/text = "shotgun"
 popup/item_1/id = 1
 
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu" unique_id=605802077]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 160)
+text = "fair warning: gun models do not sync correctly yet!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="HUD" type="Control" parent="CanvasLayer" unique_id=1075158741]
 visible = false
 layout_mode = 3

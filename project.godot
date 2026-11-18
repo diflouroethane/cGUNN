@@ -10,7 +10,10 @@ config_version=5
 
 [application]
 
-config/name="uniqueMultiplayerFPS"
+config/name="cGUNN"
+config/description="cGUNN - customGUN :P
+no means finished, guns don't even sync correctly lol"
+config/version="0.0.0.1"
 run/main_scene="uid://8axhx2d0sagt"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
