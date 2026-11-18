@@ -14,6 +14,7 @@ extends Node
 var PORT = 9989
 var peer = ENetMultiplayerPeer.new()
 var chosengun: Global.Choosable_guns = Global.Choosable_guns.PISTOL
+var playerlist = Global.playerlist
 const PLAYER = preload("res://player.tscn")
 const HOST = 0
 const JOIN = 1
@@ -25,6 +26,7 @@ func _ready() -> void:
 	print(IP.get_local_addresses())
 
 func _process(delta: float) -> void:
+	playerlist = Global.playerlist
 	#if Input.is_action_just_pressed("quit"):
 		#get_tree().quit()
 	pass
@@ -51,7 +53,7 @@ func add_player(id):
 	var player: Player = PLAYER.instantiate()
 	player.chosen_gun = chosengun
 	player.name = str(id)
-	print("world.gd:54, ", player.chosen_gun)
+	print_debug(player.chosen_gun)
 	add_child(player)
 	if player.is_multiplayer_authority():
 		player.health_changed.connect(update_health_bar)

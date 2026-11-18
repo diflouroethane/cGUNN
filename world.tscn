@@ -15,6 +15,11 @@ background_mode = 2
 sky = SubResource("Sky_fj7yv")
 glow_enabled = true
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fj7yv"]
+properties/0/path = NodePath(".:playerlist")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="World" type="Node" unique_id=1186492844]
 script = ExtResource("1_tlwt5")
 
@@ -142,6 +147,9 @@ show_percentage = false
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=410163649]
 _spawnable_scenes = PackedStringArray("uid://o3svhm0ki66a")
 spawn_path = NodePath("..")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1512227749]
+replication_config = SubResource("SceneReplicationConfig_fj7yv")
 
 [connection signal="item_selected" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]

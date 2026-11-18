@@ -17,6 +17,7 @@ var shotgun_file = preload("res://shotgun.tscn")
 
 
 var chosen_gun: Global.Choosable_guns
+var gun_file: PackedScene
 @onready var raycast: RayCast3D
 @onready var gun_hand: Node3D = $CameraPivot/Gun
 @onready var pistol: Node3D = $CameraPivot/Gun/Pistol
@@ -26,30 +27,55 @@ var chosen_gun: Global.Choosable_guns
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
+	Global.playerlist.append(str(name).to_int())
+	print(Global.playerlist)
 	#chosen_gun = Global.Choosable_guns.PISTOL
 
 func _ready() -> void:
 	match chosen_gun:
 		Global.Choosable_guns.PISTOL:
+			self.gun_file = pistol_file
+		Global.Choosable_guns.SHOTGUN:
+			self.gun_file = shotgun_file
+	if !is_multiplayer_authority():
+		print("adding synced gun(?) idk tho lolol")
+		for i in get_tree().root.get_child(1).get_children():
+			if str(i.name).to_int() in Global.playerlist:
+				print("aaaaaaa")
+				if i.is_multiplayer_authority():
+					continue
+				var playera = i
+				
+				var g: Node3D = playera.gun_file.instantiate()
+				print("aaaaaaaaaaaaaaaaaaaaaaaa: ", g.name)
+				gun_damage = g.damage
+				$CameraPivot/Gun.add_child(g)
+				print("gun added. name is ", g.name)
+				pistol = $CameraPivot/Gun.get_child(0)
+				raycast = pistol.raycast
+		#var playera = get_tree().root.get_child(1).get_node_or_null(str(Global.playerlist.find(str(name).to_int())))
+		return
+	match chosen_gun:
+		Global.Choosable_guns.PISTOL:
 			var g: Pistol = pistol_file.instantiate()
+			self.gun_file = pistol_file
 			gun_damage = g.damage
 			$CameraPivot/Gun.add_child(g)
 			print("pistol")
 		Global.Choosable_guns.SHOTGUN:
 			var g: Shotgun = shotgun_file.instantiate()
+			self.gun_file = shotgun_file
 			gun_damage = g.damage
 			$CameraPivot/Gun.add_child(g)
 			print("shotgunnnn yayayayay")
 	pistol = $CameraPivot/Gun.get_child(0)
 	raycast = pistol.raycast
-	if !is_multiplayer_authority():
-		return
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	print(chosen_gun)
 	camera.current = true
 
 func _physics_process(delta: float) -> void:
-	print("chosen gun of name, ",self.name," is ", chosen_gun)
+	#print("chosen gun of name, ",self.name," is ", chosen_gun)
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED and Input.is_action_just_pressed("shoot"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	elif Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and Input.is_action_just_pressed("nofocus"):

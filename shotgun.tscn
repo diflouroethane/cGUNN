@@ -103,6 +103,7 @@ color_ramp = SubResource("Gradient_frc40")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=963856734]
 root_node = NodePath("../pivot")
 libraries/ = SubResource("AnimationLibrary_kw0bs")
+speed_scale = 0.75
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1081483781]
 target_position = Vector3(0, 0, -1.5)
